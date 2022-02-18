@@ -65,12 +65,6 @@ export function CarDetails() {
         <About>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo quae vitae quidem debitis nemo culpa eius optio autem sapiente aut sint, repudiandae recusandae assumenda consectetur officiis deserunt consequatur repellat quod.
         </About>
-        <About>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo quae vitae quidem debitis nemo culpa eius optio autem sapiente aut sint, repudiandae recusandae assumenda consectetur officiis deserunt consequatur repellat quod.
-        </About>
-        <About>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo quae vitae quidem debitis nemo culpa eius optio autem sapiente aut sint, repudiandae recusandae assumenda consectetur officiis deserunt consequatur repellat quod.
-        </About>
       </Content>
 
       <Footer>
