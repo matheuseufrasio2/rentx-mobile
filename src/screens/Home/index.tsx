@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { StatusBar } from 'react-native';
+import { RootStackParamList } from '../../@types/navigation';
 
 import {
   CarList,
@@ -13,7 +16,14 @@ import {
 import Logo from '../../assets/logo.svg';
 import { Car } from '../../components/Car';
 
+type HomeScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Home'
+>;
+
 export function Home() {
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+
   const carDataOne = {
     brand: "audi",
     name: "RS 5 Coupé",
@@ -23,15 +33,11 @@ export function Home() {
     },
     thumbnail: "https://freepngimg.com/thumb/audi/35227-5-audi-rs5-red.png"
   }
-  const carDataTwo = {
-    brand: "renault",
-    name: "sandero",
-    rent: {
-      period: "10 dias",
-      price: 750,
-    },
-    thumbnail: "https://brfrance.com.br/uploads/products/versions/colors/renault-sandero-branco-glacier-1.png"
+
+  function handleCarDetails() {
+    navigation.navigate('CarDetails');
   }
+
   return (
     <Container>
       <StatusBar
@@ -54,7 +60,9 @@ export function Home() {
       <CarList
         data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
         keyExtractor={item => String(item)}
-        renderItem={({ item }) => <Car data={carDataOne} />}
+        renderItem={({ item }) =>
+          <Car data={carDataOne} onPress={handleCarDetails} />
+        }
       />
 
     </Container>

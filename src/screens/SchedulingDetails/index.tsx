@@ -1,5 +1,9 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { Feather } from '@expo/vector-icons';
+
+import { RootStackParamList } from '../../@types/navigation';
 
 import { Accessory } from '../../components/Accessory';
 import { BackButton } from '../../components/BackButton';
@@ -41,8 +45,19 @@ import { Button } from '../../components/Button';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useTheme } from 'styled-components';
 
+type SchedulingDetailsScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'SchedulingDetails'
+>;
+
 export function SchedulingDetails() {
   const theme = useTheme();
+  const navigation = useNavigation<SchedulingDetailsScreenNavigationProp>();
+
+  function handleConfirm() {
+    navigation.navigate('SchedulingComplete');
+  }
+
   return (
     <Container>
       <Header>
@@ -112,7 +127,11 @@ export function SchedulingDetails() {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" />
+        <Button
+          onPress={handleConfirm}
+          title="Alugar agora"
+          color={theme.colors.success}
+        />
       </Footer>
     </Container>
   );

@@ -1,5 +1,10 @@
 import React from 'react';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
+
+import { RootStackParamList } from '../../@types/navigation';
+
 import { BackButton } from '../../components/BackButton';
 
 import ArrowSvg from '../../assets/arrow.svg'
@@ -19,8 +24,18 @@ import { StatusBar } from 'react-native';
 import { Button } from '../../components/Button';
 import { Calendar } from '../../components/Calendar';
 
+type SchedulingScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Scheduling'
+>;
+
 export function Scheduling() {
   const theme = useTheme();
+  const navigation = useNavigation<SchedulingScreenNavigationProp>();
+
+  function handleConfirmRental() {
+    navigation.navigate('SchedulingDetails');
+  }
 
   return (
     <Container>
@@ -62,6 +77,7 @@ export function Scheduling() {
 
       <Footer>
         <Button
+          onPress={handleConfirmRental}
           title="Confirmar"
         />
       </Footer>
