@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -15,6 +15,9 @@ import {
 
 import Logo from '../../assets/logo.svg';
 import { Car } from '../../components/Car';
+import { api } from '../../services/api';
+import { CarDTO } from '../../dtos/CarDTO';
+import { Load } from '../../components/Load';
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -22,17 +25,23 @@ type HomeScreenNavigationProp = StackNavigationProp<
 >;
 
 export function Home() {
+  const [cars, setCars] = useState<CarDTO[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation<HomeScreenNavigationProp>();
 
-  const carDataOne = {
-    brand: "audi",
-    name: "RS 5 Coupé",
-    rent: {
-      period: "5 dias",
-      price: 120,
-    },
-    thumbnail: "https://freepngimg.com/thumb/audi/35227-5-audi-rs5-red.png"
-  }
+  useEffect(() => {
+    async function fetchCars() {
+      try {
+        const response = await api.get('cars');
+        setCars(response.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchCars();
+  }, [])
 
   function handleCarDetails() {
     navigation.navigate('CarDetails');
@@ -57,13 +66,15 @@ export function Home() {
         </HeaderContent>
       </Header>
 
-      <CarList
-        data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
-        keyExtractor={item => String(item)}
-        renderItem={({ item }) =>
-          <Car data={carDataOne} onPress={handleCarDetails} />
-        }
-      />
+      {isLoading ? <Load /> : (
+        <CarList
+          data={cars}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) =>
+            <Car data={item} onPress={handleCarDetails} />
+          }
+        />
+      )}
 
     </Container>
   );
