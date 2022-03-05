@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { RootStackParamList } from '../../@types/navigation';
@@ -38,8 +38,12 @@ type CarDetailsScreenNavigationProp = StackNavigationProp<
   'CarDetails'
 >;
 
+type CarDetailsScreenRouteProp = RouteProp<RootStackParamList, 'CarDetails'>;
+
 export function CarDetails() {
   const navigation = useNavigation<CarDetailsScreenNavigationProp>();
+  const { params: { car } } = useRoute<CarDetailsScreenRouteProp>();
+
 
   function handleConfirmRental() {
     navigation.navigate('Scheduling');
@@ -48,39 +52,40 @@ export function CarDetails() {
   return (
     <Container>
       <Header>
-        <BackButton onPress={() => navigation.navigate('Home')} />
+        <BackButton onPress={() => navigation.goBack()} />
       </Header>
       <CarImage>
         <ImageSlider
-          imagesUrl={['https://freepngimg.com/thumb/audi/35227-5-audi-rs5-red.png']}
+          imagesUrl={car.photos}
         />
       </CarImage>
 
       <Content>
         <Details>
           <Description>
-            <Brand>Lambhorgini</Brand>
-            <Name>Huracan</Name>
+            <Brand>{car.brand}</Brand>
+            <Name>{car.name}</Name>
           </Description>
 
           <Rent>
-            <Period>Ao dia</Period>
-            <Price>R$ 480</Price>
+            <Period>{car.rent.period}</Period>
+            <Price>R$ {car.rent.price}</Price>
           </Rent>
         </Details>
 
         <Accessories>
-          <Accessory name="380Km/h" icon={speedSvg} />
-          <Accessory name="3.2s" icon={accelerationSvg} />
-          <Accessory name="800 HP" icon={forceSvg} />
-          <Accessory name="Gasolina" icon={gasolineSvg} />
-          <Accessory name="Auto" icon={exchangeSvg} />
-          <Accessory name="2 pessoas" icon={peopleSvg} />
+          {
+            car.accessories.map(accessory => (
+              <Accessory
+                key={accessory.type}
+                name={accessory.name}
+                icon={speedSvg}
+              />
+            ))
+          }
         </Accessories>
 
-        <About>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo quae vitae quidem debitis nemo culpa eius optio autem sapiente aut sint, repudiandae recusandae assumenda consectetur officiis deserunt consequatur repellat quod.
-        </About>
+        <About>{car.about}</About>
       </Content>
 
       <Footer>

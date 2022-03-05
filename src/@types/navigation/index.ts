@@ -1,9 +1,11 @@
+import { CarDTO } from "../../dtos/CarDTO";
+
 export type RootStackParamList = {
   Home: {
     name: string;
   };
   CarDetails: {
-    option: string;
+    car: CarDTO;
   };
   Scheduling: {
     option: string;
